@@ -1,11 +1,17 @@
 const bcryptjs = require('bcryptjs')
 const config = require('../../config')
 
-const hash = async (password) => {
-  const hash = await bcryptjs.hash(password, config.saltTimes);
+const hash = (pwd) => {
+  const hash = bcryptjs.hashSync(pwd, config.saltTimes);
   return hash;
 };
 
+const compare = (pwd, hasPwd) => {
+  const result = bcryptjs.compareSync(pwd, hashPwd)
+  return result
+}
+
 module.exports = {
-  hash
+  hash,
+  compare
 }

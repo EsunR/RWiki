@@ -45,20 +45,9 @@ module.exports = {
           uid: doc.uid
         }
       }
+    }).catch(err => {
+      console.log(err)
+      return
     })
-
-    // adminPwd.save().then(doc => {
-    //   ctx.body = {
-    //     msg: "ok",
-    //     data: {
-    //       uid: doc.uid
-    //     }
-    //   }
-    // }).catch(err => {
-    //   console.log(err)
-    //   ctx.body = {
-    //     msg: "创建admin用户失败"
-    //   }
-    // })
   }
 }
