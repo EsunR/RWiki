@@ -11,7 +11,8 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 
 axios.defaults.baseURL = baseConfig.apiUrl
-// axios.defaults.headers.common['Authorization'] = localStorage.getItem('login_token')
+console.log(localStorage.getItem('login_token'));
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('login_token')
 
 new Vue({
   store,
