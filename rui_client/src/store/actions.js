@@ -7,3 +7,7 @@ export const closeDevMode = function ({ commit }) {
 export const openDevMode = function ({ commit }) {
   commit(types.SET_DEVMODE, true)
 }
+
+export const changeLoginState = function ({ commit }, val) {
+  commit(types.SET_LOGIN_STATE, val)
+}

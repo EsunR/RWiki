@@ -31,18 +31,30 @@ export default {
       } else {
         return false;
       }
-      console.log(result);
+    },
+    routerTest() {
+      this.axios
+        .get("/test/testRouter")
+        .then(res => {
+          if (res.data.msg == "ok") {
+            console.log(res.data);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     updateToken() {
       // 检查当前Token是否有效
       this.axios
         .get("/base/updateToken")
         .then(res => {
-          console.log(res);
+          if (res.data.msg !== "ok") {
+            throw new Error("Token 过期");
+          }
         })
         .catch(err => {
-          console.warn("尝试重新登录，", err);
-          this.$message.error("Ops! 看起来需要重新登录哦");
+          this.$message.error(`Ops! 看起来需要重新登录哦! ${err}`);
         });
     }
   },
@@ -73,6 +85,7 @@ hr {
 
 <style lang="scss" scoped>
 .el-header {
+  width: 100%;
   background-color: #409eff;
   color: #ffffff;
   .container {
@@ -93,6 +106,16 @@ hr {
         }
       }
     }
+  }
+}
+.el-main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: visible;
+  @media screen and (min-width: 1200px) {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 </style>

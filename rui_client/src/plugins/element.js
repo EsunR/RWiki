@@ -6,7 +6,10 @@ import {
   Main,
   Col,
   Row,
-  Message
+  Message,
+  Form,
+  FormItem,
+  Input,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -15,5 +18,8 @@ Vue.use(Header)
 Vue.use(Main)
 Vue.use(Col)
 Vue.use(Row)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Input)
 
 Vue.prototype.$message = Message

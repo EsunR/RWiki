@@ -30,8 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 #home {
-  max-width: 1200px;
-  margin: 0 auto;
   .hoem-title {
     color: #606266;
     border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);

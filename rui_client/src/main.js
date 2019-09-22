@@ -6,12 +6,12 @@ import './plugins/element.js'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import baseConfig from './config/base_config'
+import './global/global.scss';
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 
 axios.defaults.baseURL = baseConfig.apiUrl
-console.log(localStorage.getItem('login_token'));
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('login_token')
 
 new Vue({

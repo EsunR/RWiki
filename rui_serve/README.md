@@ -1,5 +1,13 @@
 # 1. 数据库
 
+### users
+
+> 存放单个用户的基本信息
+
+- identity
+- name
+- time
+
 ### password
 
 > 存放用户的密码，用于签发 token
@@ -14,7 +22,11 @@
 - uid
 - tid: 有效 Token 的 ID
 
-# Token
+
+
+
+
+# 2. Token
 
 ## Token记录的信息
 

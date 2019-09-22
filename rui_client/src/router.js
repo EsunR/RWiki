@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/home';
-// import baseConfig from './config/base_config';
+import Login from './views/login';
 
 Vue.use(Router)
 
@@ -14,6 +14,10 @@ var router = new Router({
     {
       path: '/home',
       component: Home
+    },
+    {
+      path: '/login',
+      component: Login
     },
   ]
 })

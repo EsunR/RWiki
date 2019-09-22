@@ -1,5 +1,6 @@
 const state = {
-  devMode: true
+  devMode: true,
+  loginState: false
 }
 
 export default state
