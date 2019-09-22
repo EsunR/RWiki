@@ -6,7 +6,6 @@ class Db {
     this.mongoose = mongoose
     this.client = null // 存放连接后的数据库实体
     this.userModel = null
-    this.connect()
   }
 
   /**

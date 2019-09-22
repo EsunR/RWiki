@@ -23,20 +23,31 @@
 export default {
   name: "app",
   methods: {
-    projectData() {},
-    getSysStatus() {
+    async _getSysStatus() {
+      let result = await this.axios.get("/sys/sysStatus");
+      let count = result.data.data.adminCount;
+      if (count > 0) {
+        return true;
+      } else {
+        return false;
+      }
+      console.log(result);
+    },
+    updateToken() {
+      // 检查当前Token是否有效
       this.axios
-        .get("/sys/sysStatus")
-        .then(result => {
-          console.log(result.data);
+        .get("/base/updateToken")
+        .then(res => {
+          console.log(res);
         })
         .catch(err => {
-          console.log(err);
+          console.warn("尝试重新登录，", err);
+          this.$message.error("Ops! 看起来需要重新登录哦");
         });
     }
   },
   mounted() {
-    this.getSysStatus();
+    this.updateToken();
   }
 };
 </script>

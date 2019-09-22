@@ -5,7 +5,8 @@ import {
   Header,
   Main,
   Col,
-  Row
+  Row,
+  Message
 } from 'element-ui'
 
 Vue.use(Button)
@@ -14,3 +15,5 @@ Vue.use(Header)
 Vue.use(Main)
 Vue.use(Col)
 Vue.use(Row)
+
+Vue.prototype.$message = Message

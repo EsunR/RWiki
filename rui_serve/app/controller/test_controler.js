@@ -1,4 +1,4 @@
-const userModel = require('../../database/user_model')
+const userModel = require('../../database/UserModel')
 
 module.exports = {
   testRouter: async (ctx, next) => {
@@ -8,7 +8,6 @@ module.exports = {
   },
   testUsers: async (ctx, next) => {
     let data = await userModel.find({})
-    console.log(data);
     ctx.status = 200;
     ctx.body = {
       msg: "ok",

@@ -5,12 +5,14 @@ import router from './router'
 import './plugins/element.js'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import serverConfig from './config/server_config'
+import baseConfig from './config/base_config'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 
-axios.defaults.baseURL = serverConfig.apiUrl
+axios.defaults.baseURL = baseConfig.apiUrl
+console.log(localStorage.getItem('login_token'));
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('login_token')
 
 new Vue({
   store,
