@@ -1,13 +1,12 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header>
+      <el-header ref="topbar">
         <div class="container">
-          <div class="title">RUI</div>
-          <!-- 菜单 -->
+          <div class="title">Wiki-Light</div>
           <ul class="menu">
             <li>
-              <i class="el-icon-plus"></i>
+              <router-link tag="i" to="/edit" class="el-icon-plus"></router-link>
             </li>
           </ul>
         </div>
@@ -20,9 +19,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "app",
   methods: {
+    ...mapActions(["setUserInfo", "changeLoginState"]),
     async _getSysStatus() {
       let result = await this.axios.get("/sys/sysStatus");
       let count = result.data.data.adminCount;
@@ -32,16 +33,19 @@ export default {
         return false;
       }
     },
-    routerTest() {
+    _getUserInfo() {
       this.axios
-        .get("/test/testRouter")
+        .get("/base/getUserInfo")
         .then(res => {
-          if (res.data.msg == "ok") {
-            console.log(res.data);
+          if (res.data.msg === "ok") {
+            this.setUserInfo(res.data.data);
+          } else {
+            throw new Error(res.data.msg);
           }
         })
         .catch(err => {
           console.log(err);
+          this.$message.error(err);
         });
     },
     updateToken() {
@@ -49,17 +53,25 @@ export default {
       this.axios
         .get("/base/updateToken")
         .then(res => {
-          if (res.data.msg !== "ok") {
+          if (res.data.msg === "ok") {
+            // 如果不过期就用当前Token获取用户信息
+            this.changeLoginState(true);
+            this._getUserInfo();
+          } else {
             throw new Error("Token 过期");
           }
         })
         .catch(err => {
           this.$message.error(`Ops! 看起来需要重新登录哦! ${err}`);
+          window.localStorage.removeItem("login_token");
+          this.$router.push("/login");
         });
     }
   },
   mounted() {
-    this.updateToken();
+    if (window.localStorage.getItem("login_token")) {
+      this.updateToken();
+    }
   }
 };
 </script>

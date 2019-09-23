@@ -7,11 +7,12 @@ module.exports = {
     }
   },
   testUsers: async (ctx, next) => {
-    let data = await userModel.find({})
-    ctx.status = 200;
-    ctx.body = {
-      msg: "ok",
-      data
-    }
+    await userModel.find({}).then(doc => {
+      ctx.status = 200;
+      ctx.body = {
+        msg: "ok",
+        data: doc
+      }
+    })
   },
 }

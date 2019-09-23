@@ -1,11 +1,14 @@
 import * as types from './mutation-types';
 
 const mutations = {
-  [types.SET_DEVMODE](state, value) {
-    state.devMode = value
+  [types.SET_DEVMODE](state, val) {
+    state.devMode = val
   },
-  [types.SET_LOGIN_STATE](state, value) {
-    state.loginState = value
+  [types.SET_LOGIN_STATE](state, val) {
+    state.loginState = val
+  },
+  [types.SET_USER_INFO](state, val) {
+    state.userInfo = val
   }
 }
 

@@ -104,5 +104,15 @@ module.exports = {
       }
     }
   },
-
+  /**
+   * 获取用户信息
+   */
+  getUserInfo: async (ctx, next) => {
+    let uid = ctx.state.user.uid
+    let userDoc = await UserModel.findOne({ _id: uid })
+    ctx.body = {
+      msg: "ok",
+      data: userDoc
+    }
+  }
 }

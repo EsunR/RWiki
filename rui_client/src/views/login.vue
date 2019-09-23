@@ -41,11 +41,18 @@ export default {
   data() {
     var checkPassword = (rule, value, callback) => {
       if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.form.rePassword !== "" && this.loginMode === false) {
+          this.$refs.loginForm.validateField("rePassword");
+        }
+        callback();
+      }
+    };
+    var checkPassword2 = (rule, value, callback) => {
+      if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (
-        this.form.rePassword !== this.form.password &&
-        !this.loginMode
-      ) {
+      } else if (value !== this.form.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -67,7 +74,7 @@ export default {
           }
         ],
         password: [{ validator: checkPassword, trigger: ["change", "blur"] }],
-        rePassword: [{ validator: checkPassword, trigger: ["change", "blur"] }]
+        rePassword: [{ validator: checkPassword2, trigger: ["change", "blur"] }]
       }
     };
   },
@@ -83,6 +90,7 @@ export default {
             .post("/base/login", this.form)
             .then(res => {
               if (res.data.msg == "ok") {
+                this.$message.success("登录成功");
                 this.changeLoginState(true);
                 window.localStorage.setItem("login_token", res.data.data.token);
                 this.$router.push("/home");
@@ -106,6 +114,7 @@ export default {
             .post("/base/register", this.form)
             .then(res => {
               if (res.data.msg == "ok") {
+                this.$message.success("注册成功，已登录");
                 this.changeLoginState(true);
                 window.localStorage.setItem("login_token", res.data.data.token);
                 this.$router.push("/home");

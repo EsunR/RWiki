@@ -9,3 +9,11 @@
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
+
+input:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}

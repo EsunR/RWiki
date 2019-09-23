@@ -11,3 +11,9 @@ export const openDevMode = function ({ commit }) {
 export const changeLoginState = function ({ commit }, val) {
   commit(types.SET_LOGIN_STATE, val)
 }
+
+export const setUserInfo = function ({ commit }, val) {
+  commit(types.SET_USER_INFO, val)
+}
+
+

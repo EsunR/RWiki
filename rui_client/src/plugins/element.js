@@ -10,6 +10,7 @@ import {
   Form,
   FormItem,
   Input,
+  Dialog
 } from 'element-ui'
 
 Vue.use(Button)
@@ -21,5 +22,6 @@ Vue.use(Row)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Input)
+Vue.use(Dialog)
 
 Vue.prototype.$message = Message

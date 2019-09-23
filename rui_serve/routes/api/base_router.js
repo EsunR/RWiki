@@ -10,5 +10,6 @@ const controller = require('../../app/controller/base_controller')
 router.post('/register', controller.register)
 router.post('/login', controller.login)
 router.get('/updateToken', controller.updateToken)
+router.get('/getUserInfo', controller.getUserInfo)
 
 module.exports = router.routes()

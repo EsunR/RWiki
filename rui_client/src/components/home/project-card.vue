@@ -1,26 +1,26 @@
 <template>
   <div class="project-card">
-    <div class="cover" :style="{backgroundImage: `url(${cover})`}"></div>
+    <div class="cover" :style="{backgroundImage: `url(${getCover(cover)})`}"></div>
     <div class="content">
-      <div class="title">{{title}}</div>
+      <div class="projectName">{{projectName}}</div>
       <hr>
       <div class="desc">{{desc}}</div>
-      <div class="time">{{time}}</div>
+      <div class="time">{{time | formatTime}}</div>
     </div>
   </div>
 </template>
 
 <script>
+let defaultCover =
+  "http://img.cdn.esunr.xyz/the_caravan_by_patryk_wojciechowicz_2x.png";
 export default {
   name: "project-card",
-  // props: ["cover", "projectTitle", "description", "time"]
   props: {
     cover: {
       type: String,
-      default:
-        "http://img.cdn.esunr.xyz/the_caravan_by_patryk_wojciechowicz_2x.png" // TODO: 这里放项目默认展示图片
+      default: defaultCover
     },
-    title: {
+    projectName: {
       type: String,
       required: true
     },
@@ -29,8 +29,16 @@ export default {
       required: true
     },
     time: {
-      type: Date,
       required: true
+    }
+  },
+  methods: {
+    getCover(url) {
+      if (url === "") {
+        return defaultCover;
+      } else {
+        return url;
+      }
     }
   }
 };
@@ -58,7 +66,7 @@ export default {
   .content {
     background-color: #fff;
     padding: 10px;
-    .title {
+    .projectName {
       font-size: 16px;
     }
     .desc {
