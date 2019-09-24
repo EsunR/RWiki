@@ -5,6 +5,7 @@ function resolve(dir) {
 
 
 module.exports = {
+  outputDir: path.resolve(__dirname, '../rui_serve/static'),
   configureWebpack: {
     resolve: {
       alias: {

@@ -1,3 +1,4 @@
+const path = require('path')
 const config = require('./config')
 const Koa = require('koa')
 const Router = require('koa-router')
@@ -7,10 +8,15 @@ const db = require('./database/db')
 const koaJwt = require('koa-jwt')
 const tokenCheck = require('./app/middleware/tokenCheck')
 const cors = require('@koa/cors');
+const static = require('koa-static')
 
 // 实例化
 const app = new Koa()
 const router = new Router()
+
+// 处理静态资源
+const staticPath = './static'
+app.use(static(path.join(__dirname, staticPath)))
 
 // 连接数据库
 db.connect()
@@ -33,7 +39,8 @@ app.use(koaJwt({ secret: config.jwtSecret }).unless({
     /^\/api\/sys\/sysInit/,
     /^\/api\/test\/testRouter/,
     /^\/api\/test/,
-    /test/
+    /test/,
+    /^(?!\/api)/
   ]
 }))
 
