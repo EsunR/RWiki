@@ -5,7 +5,7 @@
 
 const Router = require('koa-router')
 const router = new Router()
-const controller = require('../app/controller/sys_controller')
+const controller = require('../controller/sys_controller')
 
 router.get('/sysStatus', controller.sysStatus)
 router.post('/sysInit', controller.sysInit)

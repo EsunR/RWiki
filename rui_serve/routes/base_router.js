@@ -5,7 +5,7 @@
 
 const Router = require('koa-router')
 const router = new Router()
-const controller = require('../app/controller/base_controller')
+const controller = require('../controller/base_controller')
 
 router.post('/register', controller.register)
 router.post('/login', controller.login)

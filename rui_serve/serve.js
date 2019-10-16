@@ -3,10 +3,10 @@ const config = require('./config')
 const Koa = require('koa')
 const Router = require('koa-router')
 const bodyPaser = require('koa-bodyparser')
-const resFormat = require('./app/middleware/resFormat')
+const resFormat = require('./middleware/resFormat')
 const db = require('./database/db')
 const koaJwt = require('koa-jwt')
-const tokenCheck = require('./app/middleware/tokenCheck')
+const tokenCheck = require('./middleware/tokenCheck')
 const cors = require('@koa/cors');
 const static = require('koa-static')
 
@@ -37,8 +37,6 @@ app.use(koaJwt({ secret: config.jwtSecret }).unless({
     /^\/api\/base\/login/,
     /^\/api\/base\/register/,
     /^\/api\/sys\/sysInit/,
-    /^\/api\/test\/testRouter/,
-    /^\/api\/test/,
     /test/,
     /^(?!\/api)/
   ]

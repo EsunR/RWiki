@@ -1,12 +1,12 @@
 const bcryptjs = require('bcryptjs')
-const config = require('../../config')
+const config = require('../config')
 
 const hashSync = (password) => {
   return bcryptjs.hashSync(password, config.saltTimes);;
 };
 
 /**
- * 
+ * 对比密码
  * @param {String} pwd 现有密码
  * @param {String} hashPwd 已被哈希的密码
  */

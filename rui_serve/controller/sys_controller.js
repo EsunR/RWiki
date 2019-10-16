@@ -1,6 +1,4 @@
-const UserModel = require('../../database/UserModel')
-const PasswordModel = require('../../database/PasswordModel')
-const TokenModel = require('../../database/TokenModel')
+const UserModel = require('../database/user')
 const pwdHash = require('../utils/pwdHash')
 const jwt = require('../utils/jwt')
 

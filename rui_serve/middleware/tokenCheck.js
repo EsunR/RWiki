@@ -1,5 +1,5 @@
-const config = require('../../config')
-const TokenModel = require('../../database/TokenModel')
+const config = require('../config')
+const userDb = require('../database/user')
 
 const tokenCheck = function () {
   return async function (ctx, next) {
@@ -10,8 +10,13 @@ const tokenCheck = function () {
       let result = true
       let tid = ctx.state.user.tid
       let uid = ctx.state.user.uid
-      let tokenDoc = await TokenModel.findOne({ uid })
-      if (tokenDoc.tidArr.indexOf(tid) !== -1) {
+      let userDoc = await userDb.Model.findById(uid)
+      if (userDoc == null) {
+        ctx.status = 403
+        ctx.body = { msg: "未查到 Token 对应的用户" }
+        return
+      }
+      if (userDoc.tokens.indexOf(tid) !== -1) {
         console.log("Token 检查已通过 √");
         result = true
       } else {

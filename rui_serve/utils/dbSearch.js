@@ -1,4 +1,4 @@
-const UserModel = require('../../database/UserModel')
+const UserModel = require('../../database/user')
 
 /**
  * 获取用户的相关信息

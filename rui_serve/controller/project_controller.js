@@ -1,6 +1,5 @@
-const ProjectModel = require('../../database/ProjectModel')
-const UserModel = require('../../database/UserModel')
-const dbSearch = require('../utils/dbSearch')
+const ProjectModel = require('../database/project')
+const UserModel = require('../database/user')
 
 module.exports = {
   test: async (ctx, next) => {
