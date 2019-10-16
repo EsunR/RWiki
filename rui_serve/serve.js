@@ -48,10 +48,10 @@ app.use(koaJwt({ secret: config.jwtSecret }).unless({
 app.use(tokenCheck())
 
 /** 路由处理 */
-const test_router = require('./routes/api/test_router');
-const sysInit_router = require('./routes/api/sys_router')
-const base_router = require('./routes/api/base_router')
-const project_router = require('./routes/api/project_router')
+const test_router = require('./routes/test_router')
+const sysInit_router = require('./routes/sys_router')
+const base_router = require('./routes/base_router')
+const project_router = require('./routes/project_router')
 router.use('/api/test', test_router)
 router.use('/api/sys', sysInit_router)
 router.use('/api/base', base_router)

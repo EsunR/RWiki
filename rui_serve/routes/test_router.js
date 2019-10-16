@@ -1,6 +1,6 @@
 const Router = require('koa-router')
 const router = new Router()
-const controller = require('../../app/controller/test_controler')
+const controller = require('../app/controller/test_controler')
 
 router.get('/testRouter', controller.testRouter)
 router.get('/testUsers', controller.testUsers)
