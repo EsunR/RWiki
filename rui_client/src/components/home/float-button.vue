@@ -21,7 +21,7 @@ export default {
   position: fixed;
   width: 100%;
   left: 0px;
-  bottom: 50px;
+  bottom: 20px;
   .inner {
     max-width: 1350px;
     margin: 0 auto;
@@ -37,8 +37,8 @@ export default {
       .btn-wrapper {
         margin-top: 5px;
         .el-button {
-          width: 40px;
-          height: 40px;
+          width: 45px;
+          height: 45px;
         }
       }
     }

@@ -1,7 +1,8 @@
 const state = {
   devMode: true,
   loginState: false,
-  userInfo: {}
+  userInfo: {},
+  fullScreen: true
 }
 
 export default state

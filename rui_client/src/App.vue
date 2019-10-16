@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header ref="topbar">
+      <el-header ref="topbar" v-show="!fullScreen">
         <div class="container">
           <div class="title">Wiki-Light</div>
           <ul class="menu">
@@ -12,7 +12,9 @@
         </div>
       </el-header>
       <el-main>
-        <router-view></router-view>
+        <div :class="{'el-main-center': !fullScreen}">
+          <router-view></router-view>
+        </div>
       </el-main>
     </el-container>
   </div>
@@ -72,6 +74,11 @@ export default {
     if (window.localStorage.getItem("login_token")) {
       this.updateToken();
     }
+  },
+  computed: {
+    fullScreen() {
+      return this.$store.getters.fullScreen;
+    }
   }
 };
 </script>
@@ -120,7 +127,7 @@ hr {
     }
   }
 }
-.el-main {
+.el-main-center {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;

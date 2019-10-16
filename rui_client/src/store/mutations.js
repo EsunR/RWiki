@@ -9,6 +9,9 @@ const mutations = {
   },
   [types.SET_USER_INFO](state, val) {
     state.userInfo = val
+  },
+  [types.SET_FULL_SCREEN](state, val) {
+    state.fullScreen = val
   }
 }
 

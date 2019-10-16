@@ -16,4 +16,8 @@ export const setUserInfo = function ({ commit }, val) {
   commit(types.SET_USER_INFO, val)
 }
 
+export const setFullScreen = function ({ commit }, val) {
+  commit(types.SET_FULL_SCREEN, val)
+}
+
 
