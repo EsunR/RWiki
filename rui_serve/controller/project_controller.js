@@ -1,9 +1,9 @@
-const ProjectModel = require('../database/project')
+const projectDb = require('../database/project')
 const UserModel = require('../database/user')
 
 module.exports = {
   test: async (ctx, next) => {
-    let project = new ProjectModel({
+    let project = new projectDb.Model({
       projectInfo: {
         projectName: "测试项目",
         creatorUid: "123",
@@ -33,7 +33,7 @@ module.exports = {
     const uid = ctx.state.user.uid
     const req = ctx.request.body
     const userDoc = await UserModel.findById(uid)
-    let project = new ProjectModel({
+    let project = new projectDb.Model({
       projectInfo: {
         projectName: req.projectName,
         creator: {
@@ -61,7 +61,7 @@ module.exports = {
    */
   getProjectListByUid: async (ctx, next) => {
     const uid = ctx.state.user.uid
-    const project = await ProjectModel.find({ "projectInfo.creator.uid": uid }, "projectInfo")
+    const project = await projectDb.Model.find({ "projectInfo.creator.uid": uid }, "projectInfo")
     ctx.body = {
       msg: "ok",
       data: project
