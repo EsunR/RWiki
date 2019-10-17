@@ -2,7 +2,7 @@ const state = {
   devMode: true,
   loginState: false,
   userInfo: {},
-  fullScreen: true
+  fullScreen: false
 }
 
 export default state

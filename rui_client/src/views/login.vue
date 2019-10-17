@@ -1,10 +1,11 @@
 <template>
   <div id="login">
     <el-row>
-      <el-col :md="10" class="left">left</el-col>
-      <el-col :md="14" class="right">
-        right
-        <!-- <img class="right-img" src="https://api.dujin.org/bing/1366.php" /> -->
+      <el-col :md="14" class="left">
+        <login-form></login-form>
+      </el-col>
+      <el-col :md="10" class="right">
+        <right></right>
       </el-col>
     </el-row>
   </div>
@@ -12,10 +13,15 @@
 
 <script>
 import LoginForm from "../components/login/form";
+import right from "../components/login/right";
 export default {
   name: "login",
   components: {
-    LoginForm
+    LoginForm,
+    right
+  },
+  mounted() {
+    this.$store.dispatch("setFullScreen", true);
   }
 };
 </script>
@@ -36,8 +42,6 @@ export default {
     }
     .right {
       height: 100%;
-      background: url("https://api.dujin.org/bing/1366.php") no-repeat;
-      overflow: hidden;
     }
   }
 }
