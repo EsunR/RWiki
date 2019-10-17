@@ -12,5 +12,12 @@ module.exports = {
         "@com": resolve('./src/components')
       }
     }
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "~@/global/global.scss";`
+      }
+    }
   }
 }

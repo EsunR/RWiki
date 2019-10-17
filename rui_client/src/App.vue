@@ -2,28 +2,30 @@
   <div id="app">
     <el-container>
       <el-header ref="topbar" v-show="!fullScreen">
-        <div class="container">
-          <div class="title">Wiki-Light</div>
-          <ul class="menu">
-            <li>
-              <router-link tag="i" to="/edit" class="el-icon-plus"></router-link>
-            </li>
-          </ul>
-        </div>
+        <head-bar></head-bar>
       </el-header>
-      <el-main>
-        <div :class="{'el-main-center': !fullScreen}">
+      <el-container>
+        <el-aside width="100px">
+          <aside-bar></aside-bar>
+        </el-aside>
+        <el-main>
           <router-view></router-view>
-        </div>
-      </el-main>
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import AsideBar from "./components/aside/aside-bar";
+import HeadBar from "./components/header/head-bar";
 export default {
   name: "app",
+  components: {
+    AsideBar,
+    HeadBar
+  },
   methods: {
     ...mapActions(["setUserInfo", "changeLoginState"]),
     async _getSysStatus() {
@@ -84,6 +86,9 @@ export default {
 </script>
 
 <style>
+html {
+  height: 100%;
+}
 body {
   height: 100%;
   margin: 0;
@@ -103,38 +108,21 @@ hr {
 </style>
 
 <style lang="scss" scoped>
+#app {
+  height: 100%;
+}
 .el-header {
   width: 100%;
-  background-color: #409eff;
+  background-color: $color-main;
   color: #ffffff;
-  .container {
-    margin: 0 auto;
-    max-width: 1200px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .menu {
-      li i {
-        transition: all 0.2s linear;
-        padding: 10px;
-        border-radius: 50%;
-        cursor: pointer;
-        &:hover {
-          background-color: #53a8ff;
-        }
-      }
-    }
-  }
+  z-index: 2;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
-.el-main-center {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  overflow: visible;
-  @media screen and (min-width: 1200px) {
-    padding-left: 0;
-    padding-right: 0;
+.el-container {
+  height: 100%;
+  .el-aside {
+    height: 100%;
+    color: #ffffff;
   }
 }
 </style>

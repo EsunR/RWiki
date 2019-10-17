@@ -4,6 +4,7 @@ import {
   Container,
   Header,
   Main,
+  Aside,
   Col,
   Row,
   Message,
@@ -17,6 +18,7 @@ Vue.use(Button)
 Vue.use(Container)
 Vue.use(Header)
 Vue.use(Main)
+Vue.use(Aside)
 Vue.use(Col)
 Vue.use(Row)
 Vue.use(Form)

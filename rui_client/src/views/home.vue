@@ -3,11 +3,12 @@
     <div class="head">
       <div class="hoem-title">Project List</div>
       <div class="user-info" v-show="userInfo.name">
-        <img class="user-avatar" src="../assets/image/default-avatar.png">
+        <img class="user-avatar" src="../assets/image/default-avatar.png" />
         <span>{{userInfo.name}}</span>
       </div>
     </div>
     <el-row :gutter="20">
+      <div class="no-project" v-show="projectList.length === 0">这里空空如也，貌似您还没有参与过任何项目  </div>
       <el-col :sm="8" v-for="item in projectList" :key="item._id">
         <projectCard
           :projectName="item.projectInfo.projectName"
@@ -17,11 +18,11 @@
         />
       </el-col>
     </el-row>
-    <float-button :primaryClick="addProject"/>
+    <float-button :primaryClick="addProject" />
     <el-dialog title="创建新项目" :visible.sync="dialogVisible" width="30%">
       <div class="dialog-body">
         <!-- @formData="test" -->
-        <new-project-form @cancel="dialogVisible = false" @submit="dialogVisible = false"/>
+        <new-project-form @cancel="dialogVisible = false" @submit="dialogVisible = false" />
       </div>
     </el-dialog>
   </div>
@@ -98,6 +99,9 @@ export default {
       }
     }
   }
+  .no-project{
+    margin-left: 10px;
+  }
   .project-card {
     margin: 10px 0;
   }
@@ -110,6 +114,11 @@ export default {
       width: 100%;
       margin-left: -20px;
     }
+  }
+  .float-button {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
   }
 }
 </style>
