@@ -4,26 +4,17 @@
       <el-header ref="topbar" v-show="!fullScreen">
         <head-bar></head-bar>
       </el-header>
-      <el-container>
-        <el-aside width="100px">
-          <aside-bar></aside-bar>
-        </el-aside>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
+      <router-view></router-view>
     </el-container>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import AsideBar from "./components/aside/aside-bar";
 import HeadBar from "./components/header/head-bar";
 export default {
   name: "app",
   components: {
-    AsideBar,
     HeadBar
   },
   methods: {
@@ -120,9 +111,5 @@ hr {
 }
 .el-container {
   height: 100%;
-  .el-aside {
-    height: 100%;
-    color: #ffffff;
-  }
 }
 </style>

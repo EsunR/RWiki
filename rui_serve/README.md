@@ -1,30 +1,30 @@
 # 1. 数据库
 
-### users
-
-> 存放单个用户的基本信息
+### 1.1 users
 
 - identity
+- tokens **Array**
 - name
+- password
 - time
 
-### password
+## 1.2 projects
 
-> 存放用户的密码，用于签发 token
+- projectName
+- desc
+- cover
+- creator **ObjectId** `ref: users`
 
-- uid
-- password：用户密码（加密）
+- partners **Array [ObjectId `ref: users`]**
 
-### token
-
-> 当前用户对应的有效 Token
-
-- uid
-- tid: 有效 Token 的 ID
-
-
-
-
+- article **Array**
+  - title
+  - md
+  - html
+  - created_at
+  - updated_at
+- created_at
+- updated_at
 
 # 2. Token
 

@@ -3,18 +3,20 @@
     <div class="head">
       <div class="hoem-title">Project List</div>
       <div class="user-info" v-show="userInfo.name">
-        <img class="user-avatar" src="../assets/image/default-avatar.png" />
+        <img class="user-avatar" src="../../assets/image/default-avatar.png" />
         <span>{{userInfo.name}}</span>
       </div>
     </div>
     <el-row :gutter="20">
-      <div class="no-project" v-show="projectList.length === 0">这里空空如也，貌似您还没有参与过任何项目  </div>
+      <div class="no-project" v-show="projectList.length === 0">这里空空如也，貌似您还没有参与过任何项目</div>
       <el-col :sm="8" v-for="item in projectList" :key="item._id">
         <projectCard
-          :projectName="item.projectInfo.projectName"
-          :desc="item.projectInfo.desc"
-          :time="item.projectInfo.updateTime"
-          :cover="item.projectInfo.cover"
+          :pid="item._id"
+          :projectName="item.projectName"
+          :desc="item.desc"
+          :time="item.updateTime"
+          :cover="item.cover"
+          @click="handleProjectCardClick(item._id)"
         />
       </el-col>
     </el-row>
@@ -22,7 +24,7 @@
     <el-dialog title="创建新项目" :visible.sync="dialogVisible" width="30%">
       <div class="dialog-body">
         <!-- @formData="test" -->
-        <new-project-form @cancel="dialogVisible = false" @submit="dialogVisible = false" />
+        <new-project-form @cancel="dialogVisible = false" @submit="handleSubmitSuccess" />
       </div>
     </el-dialog>
   </div>
@@ -55,19 +57,23 @@ export default {
       this.axios
         .get("/project/getProjectListByUid")
         .then(res => {
-          if (res.data.msg === "ok") {
+          if (res.data.data.length > 0) {
             this.projectList = res.data.data;
-          } else {
-            throw new Error(res.data.msg);
           }
         })
         .catch(err => {
-          console.log(err);
           this.$message.error(err);
         });
     },
     addProject() {
       this.dialogVisible = true;
+    },
+    handleSubmitSuccess() {
+      this.dialogVisible = false;
+      this.getProjetList();
+    },
+    handleProjectCardClick(pid) {
+      this.$router.push(`/project/${pid}`);
     }
   },
   mounted() {
@@ -99,7 +105,7 @@ export default {
       }
     }
   }
-  .no-project{
+  .no-project {
     margin-left: 10px;
   }
   .project-card {

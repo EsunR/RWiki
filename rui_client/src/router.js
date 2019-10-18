@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/home';
+import Center from './views/center'
+import Home from './views/center-views/home';
 import Login from './views/login';
+import Project from './views/project';
 
 Vue.use(Router)
 
@@ -9,16 +11,28 @@ var router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
-    },
-    {
-      path: '/home',
-      component: Home
+      redirect: '/center',
     },
     {
       path: '/login',
       component: Login
     },
+    {
+      path: '/center',
+      component: Center,
+      redirect: '/center/home',
+      children: [
+        {
+          path: 'home',
+          component: Home
+        }
+      ]
+    },
+    {
+      path: '/project/:pid',
+      component: Project,
+      props: true
+    }
   ]
 })
 
