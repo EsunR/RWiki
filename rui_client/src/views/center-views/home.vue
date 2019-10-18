@@ -123,8 +123,8 @@ export default {
   }
   .float-button {
     position: absolute;
-    right: 50px;
-    bottom: 50px;
+    right: 20px;
+    bottom: 10px;
   }
 }
 </style>

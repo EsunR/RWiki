@@ -104,7 +104,7 @@ hr {
 }
 .el-header {
   width: 100%;
-  background-color: $color-main;
+  background-color: $color-main-deep;
   color: #ffffff;
   z-index: 2;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);

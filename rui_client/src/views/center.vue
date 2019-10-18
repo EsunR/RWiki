@@ -1,8 +1,6 @@
 <template>
   <el-container>
-    <el-aside width="100px">
-      <aside-bar></aside-bar>
-    </el-aside>
+    <aside-bar></aside-bar>
     <el-main>
       <router-view></router-view>
     </el-main>
@@ -23,8 +21,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.el-aside {
-  height: 100%;
-  color: #ffffff;
-}
+
 </style>
