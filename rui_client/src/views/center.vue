@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AsideBar from "../components/aside/aside-bar";
+import AsideBar from "../components/center/aside/aside-bar";
 export default {
   name: "center",
   components: {

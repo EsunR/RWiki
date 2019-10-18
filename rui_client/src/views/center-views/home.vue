@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import projectCard from "@com/home/project-card";
-import floatButton from "@com/home/float-button";
-import newProjectForm from "@com/home/new-project-form";
+import projectCard from "@com/center/home/project-card";
+import floatButton from "@com/center/home/float-button";
+import newProjectForm from "@com/center/home/new-project-form";
 export default {
   name: "home",
   components: {
