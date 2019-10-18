@@ -1,8 +1,9 @@
 // 全局变量
 $color-main: #409eff;
 $color-main-lite: #66b1ff;
-$color-main-deep: #1385f7;
-
+$color-main-deep: rgb(36, 134, 231);
+$radius: 5px;
+$shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 // 全局样式
 .card {
   background-color: #fff;
@@ -22,4 +23,26 @@ input:focus {
 
 button:focus {
   outline: none;
+}
+
+p {
+  text-indent: 2em;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+// 全局动画
+.fade-down-enter-active,
+.fade-down-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-down-enter,
+.fade-down-leave-to {
+  transform: translateY(50px);
+  opacity: 0;
+}
+.fade-down-enter-to,
+.fade-down-leave {
+  transform: translateY(0px);
+  opacity: 1;
 }

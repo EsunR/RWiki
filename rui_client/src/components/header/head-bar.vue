@@ -36,7 +36,7 @@ export default {
       border-radius: 50%;
       cursor: pointer;
       &:hover {
-        background-color: #53a8ff;
+        background-color: $color-main;
       }
     }
   }

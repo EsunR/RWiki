@@ -111,7 +111,7 @@ export default {
               this.changeLoginState(true);
               window.localStorage.setItem("login_token", res.data.data.token);
               this.$store.dispatch("setFullScreen", false);
-              this.$router.push("/home");
+              this.$router.push("/");
             })
             .catch(err => {
               this.$message.error(`${err}`);
