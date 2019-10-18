@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
   tokens: { type: Array, default: [] },
   time: { type: Date, default: Date.now }
 })
-
 /** 
  * @typedef {Object} User
  * @property {String} _id
@@ -20,6 +19,7 @@ const userSchema = new mongoose.Schema({
  * @property {Array} tokens  
 */
 const Model = mongoose.model("user", userSchema)
+
 
 /**
  * 创建一个用户
@@ -35,6 +35,7 @@ async function createUser(name, password, identity) {
     throw new Error("插入失败")
   })
 }
+
 
 /**
  * 为对应用户生成一个Token
@@ -66,6 +67,7 @@ async function generateToken(uid) {
 
 
 module.exports = {
+  userSchema,
   Model,
   createUser,
   generateToken
