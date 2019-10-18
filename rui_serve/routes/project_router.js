@@ -10,5 +10,6 @@ const controller = require('../controller/project_controller')
 router.get('/test', controller.test)
 router.post('/createProject', controller.createProject)
 router.get('/getProjectListByUid', controller.getProjectListByUid)
+router.get('/getProjectByPid', controller.getProjectByPid)
 
 module.exports = router.routes()

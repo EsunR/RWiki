@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   identity: { type: String, default: "user" },
   password: { type: String },
   tokens: { type: Array, default: [] },
+  avatar: { type: String, default: config.defaultUserAvatar },
   time: { type: Date, default: Date.now }
 })
 /** 

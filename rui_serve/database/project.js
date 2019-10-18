@@ -24,7 +24,7 @@ const Model = mongoose.model("project", projectSchema)
  */
 async function findCreateProjectByUid(uid) {
   let projectLinkDoc = await Model.find({ creator: uid }, { articles: 0 })
-    .populate("creator partners", { name: 1 })
+    .populate("creator partners", { tokens: 0, password: 0, identity: 0 })
     .catch(err => {
       throw err
     })

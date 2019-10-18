@@ -52,5 +52,25 @@ module.exports = {
       msg: "ok",
       data: projectDocs
     }
-  }
+  },
+
+  /**
+   * 由id查找到相关的Project
+   */
+  getProjectByPid: async (ctx, next) => {
+    let pid = ctx.query.pid
+    let projectDoc = await projectDb.Model
+      .findById(pid)
+      .populate("creator partners", { password: 0, tokens: 0, identity: 0 })
+      .catch(err => {
+        ctx.status = 404
+        ctx.body = {
+          mgs: "当前词条无记录内容"
+        }
+      })
+    ctx.body = {
+      msg: "ok",
+      data: projectDoc
+    }
+  },
 }
