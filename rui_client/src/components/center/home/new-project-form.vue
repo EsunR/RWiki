@@ -44,6 +44,7 @@ export default {
             .then(res => {
               if (res.data.msg === "ok") {
                 this.$message.success("创建成功!");
+                this._resetForm();
                 this.$emit("submit");
               } else {
                 throw new Error(res.data.msg);
@@ -54,6 +55,11 @@ export default {
             });
         }
       });
+    },
+    _resetForm() {
+      for (let key in this.formData) {
+        this.formData[key] = "";
+      }
     }
   },
   watch: {

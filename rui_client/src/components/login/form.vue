@@ -107,18 +107,13 @@ export default {
           this.axios
             .post("/base/login", this.form)
             .then(res => {
-              if (res.data.msg == "ok") {
-                this.$message.success("登录成功");
-                this.changeLoginState(true);
-                window.localStorage.setItem("login_token", res.data.data.token);
-                this.$store.dispatch("setFullScreen", false);
-                this.$router.push("/home");
-              } else {
-                throw new Error(res.data.msg);
-              }
+              this.$message.success("登录成功");
+              this.changeLoginState(true);
+              window.localStorage.setItem("login_token", res.data.data.token);
+              this.$store.dispatch("setFullScreen", false);
+              this.$router.push("/home");
             })
             .catch(err => {
-              console.log(err);
               this.$message.error(`${err}`);
             });
         } else {
@@ -132,18 +127,13 @@ export default {
           this.axios
             .post("/base/register", this.form)
             .then(res => {
-              if (res.data.msg == "ok") {
-                this.$message.success("注册成功，已登录");
-                this.changeLoginState(true);
-                window.localStorage.setItem("login_token", res.data.data.token);
-                this.$store.dispatch("setFullScreen", false);
-                this.$router.push("/home");
-              } else {
-                throw new Error(res.data.msg);
-              }
+              this.$message.success("注册成功，已登录");
+              this.changeLoginState(true);
+              window.localStorage.setItem("login_token", res.data.data.token);
+              this.$store.dispatch("setFullScreen", false);
+              this.$router.push("/home");
             })
             .catch(err => {
-              console.log(err);
               this.$message.error(`${err}`);
             });
         } else {

@@ -6,6 +6,7 @@
       <div class="hitokoto" ref="hitokoto">
         <div class="content">{{hitokoto.content}}</div>
         <div class="from">—— {{hitokoto.from}}</div>
+        <div class="process-bar" ref="processBar"></div>
       </div>
       <button class="fresh-button" @click="handleFresh">
         Fresh
@@ -46,39 +47,61 @@ export default {
     handleFresh() {
       // 节流
       if (!this.freshing) {
-        this.freshing = true;
-        let icon = this.$refs["fresh-icon"];
-        icon.classList.add("rotate");
-        setTimeout(() => {
-          icon.classList.remove("rotate");
-        }, 1000);
+        return new Promise(resolve => {
+          this.freshing = true;
+          this.$refs.processBar.style.width = "0px";
+          let icon = this.$refs["fresh-icon"];
+          icon.classList.add("rotate");
+          setTimeout(() => {
+            icon.classList.remove("rotate");
+          }, 1000);
 
-        let hitokoto = this.$refs["hitokoto"];
-        hitokoto.classList.add("hitokoto-duration");
-        hitokoto.classList.add("hitokoto-leave");
-        setTimeout(() => {
-          hitokoto.classList.remove("hitokoto-duration");
-          hitokoto.classList.remove("hitokoto-leave");
-          hitokoto.classList.add("hitokoto-enter");
-          this.getHitokoto()
-            .catch(err => {
-              console.log(err);
-              this.$message.error(`${err}`);
-              hitokoto.classList.add("hitokoto-duration");
-              hitokoto.classList.remove("hitokoto-enter");
-              this.freshing = false;
-            })
-            .finally(() => {
-              hitokoto.classList.add("hitokoto-duration");
-              hitokoto.classList.remove("hitokoto-enter");
-              this.freshing = false;
-            });
-        }, 1000);
+          let hitokoto = this.$refs["hitokoto"];
+          hitokoto.classList.add("hitokoto-duration");
+          hitokoto.classList.add("hitokoto-leave");
+          setTimeout(() => {
+            hitokoto.classList.remove("hitokoto-duration");
+            hitokoto.classList.remove("hitokoto-leave");
+            hitokoto.classList.add("hitokoto-enter");
+            this.getHitokoto()
+              .catch(err => {
+                console.log(err);
+                this.$message.error(`${err}`);
+                hitokoto.classList.add("hitokoto-duration");
+                hitokoto.classList.remove("hitokoto-enter");
+                this.freshing = false;
+              })
+              .finally(() => {
+                hitokoto.classList.add("hitokoto-duration");
+                hitokoto.classList.remove("hitokoto-enter");
+                this.freshing = false;
+                resolve();
+              });
+          }, 1000);
+        });
+      }
+    },
+    processBarAnimation() {
+      let bar = this.$refs.processBar;
+      let width = parseInt(window.getComputedStyle(bar).width);
+      bar.style.width = `${width + 1}px`;
+      let hitikoto = window.getComputedStyle(this.$refs.hitokoto);
+      if (width == parseInt(hitikoto.width) - 80) {
+        this.handleFresh().then(() => {
+          window.requestAnimationFrame(this.processBarAnimation);
+        });
+      } else {
+        window.requestAnimationFrame(this.processBarAnimation);
       }
     }
   },
   mounted() {
-    this.getHitokoto();
+    this.$refs.hitokoto.classList.add("hitokoto-duration");
+    this.$refs.hitokoto.classList.add("hitokoto-enter");
+    this.getHitokoto().then(() => {
+      this.$refs.hitokoto.classList.remove("hitokoto-enter");
+    });
+    this.processBarAnimation();
   }
 };
 </script>
@@ -121,6 +144,12 @@ export default {
     .from {
       margin-top: 20px;
       text-align: right;
+    }
+    .process-bar {
+      width: 0px;
+      height: 2px;
+      margin-top: 20px;
+      background-color: white;
     }
   }
   .hitokoto-leave {

@@ -1,9 +1,9 @@
 <template>
-  <div class="project-card">
+  <div class="project-card" @click="$emit('click')">
     <div class="cover" :style="{backgroundImage: `url(${getCover(cover)})`}"></div>
     <div class="content">
       <div class="projectName">{{projectName}}</div>
-      <hr>
+      <hr />
       <div class="desc">{{desc}}</div>
       <div class="time">{{time | formatTime}}</div>
     </div>
@@ -29,6 +29,9 @@ export default {
       required: true
     },
     time: {
+      required: true
+    },
+    pid: {
       required: true
     }
   },
