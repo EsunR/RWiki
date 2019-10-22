@@ -70,11 +70,17 @@ export default {
     background-color: #fff;
     padding: 10px;
     .projectName {
-      font-size: 16px;
+      font-size: 1.2rem;
+      font-weight: bold;
     }
     .desc {
       font-size: 14px;
-      min-height: 50px;
+      line-height: 20px;
+      height: 80px;
+      text-align: justify;
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
     }
     .time {
       font-size: 14px;
