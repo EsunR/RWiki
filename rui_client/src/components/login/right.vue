@@ -101,7 +101,9 @@ export default {
     this.getHitokoto().then(() => {
       this.$refs.hitokoto.classList.remove("hitokoto-enter");
     });
-    this.processBarAnimation();
+    setTimeout(() => {
+      this.processBarAnimation();
+    }, 500);
   }
 };
 </script>

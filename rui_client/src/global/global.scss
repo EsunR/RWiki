@@ -31,6 +31,17 @@ p {
   text-align: justify;
 }
 
+textarea {
+  // font-size: 1.2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  text-align: justify;
+  line-height: 1.5;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 // 全局动画
 .fade-down-enter-active,
 .fade-down-leave-active {

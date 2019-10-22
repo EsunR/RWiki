@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Center from './views/center'
 import Home from './views/center-views/home';
-import Login from './views/login';
-import Project from './views/project';
 
 Vue.use(Router)
 
@@ -15,11 +12,11 @@ var router = new Router({
     },
     {
       path: '/login',
-      component: Login
+      component: () => import('./views/login')
     },
     {
       path: '/center',
-      component: Center,
+      component: () => import('./views/center'),
       redirect: '/center/home',
       children: [
         {
@@ -30,7 +27,8 @@ var router = new Router({
     },
     {
       path: '/project/:pid',
-      component: Project,
+      // 异步加载组件
+      component: () => import('./views/project'),
       props: true
     }
   ]

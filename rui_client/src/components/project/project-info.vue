@@ -1,11 +1,16 @@
 <template>
   <div id="projectInfo" ref="projectInfo">
     <h1 class="projectName">
-      {{projectInfo.projectName}}
-      <i
-        class="el-icon-info"
-        @click.stop="showContributor = !showContributor;"
-      ></i>
+      <div class="left">
+        {{projectInfo.projectName}}
+        <el-button
+          round
+          @click="editMode = !editMode"
+          :type="editMode ? 'info' : 'default'"
+          size="small"
+        >{{editMode ? "取消编辑" : "编辑此段"}}</el-button>
+      </div>
+      <i class="el-icon-info right" @click.stop="showContributor = !showContributor;"></i>
     </h1>
     <transition name="fade-down">
       <div class="info-card" v-show="showContributor">
@@ -24,24 +29,59 @@
         </ul>
       </div>
     </transition>
-    <p class="desc">{{projectInfo.desc}}</p>
+    <p class="desc" v-if="!editMode" v-html="projectInfo.desc"></p>
+    <div class="editor" v-if="editMode">
+      <textarea v-model="editorContent" name="info-editor" id="info-editor" rows="8"></textarea>
+      <div class="btn-wrapper">
+        <el-button type="success" size="small" @click="handleSubmit">提交</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mergString } from "../../plugins/utils";
 export default {
   data() {
     return {
-      showContributor: false
+      showContributor: false,
+      editMode: false,
+      editorContent: ""
     };
   },
   props: ["projectInfo"],
-  methods: {},
+  methods: {
+    handleSubmit() {
+      // 转义防止XSS
+      let editorContent = this.editorContent;
+      editorContent = mergString(editorContent, "\n");
+      editorContent = this._.escape(editorContent).replace(/\n/g, "</p><p>");
+      this.axios
+        .post("/project/modifyProjectInfo", {
+          _id: this.projectInfo._id,
+          desc: editorContent
+        })
+        .then(res => {
+          this.$message.success("修改成功");
+          this.$emit("update:projectInfo", res.data.data);
+          this.editMode = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error(`${err}`);
+        });
+    }
+  },
   mounted() {
     window.addEventListener("click", () => {
-      console.log(1);
       this.showContributor = false;
     });
+  },
+  watch: {
+    editMode: function() {
+      this.editorContent = this._.unescape(this.projectInfo.desc);
+      this.editorContent = this.editorContent.replace(/<\/p><p>/g, "\n\n"); // 拓展段间距
+    }
   }
 };
 </script>
@@ -51,7 +91,7 @@ export default {
   position: relative;
 }
 
-h1 {
+.projectName {
   margin: 10px 0;
   color: $color-main;
   font-size: 2rem;
@@ -61,8 +101,15 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
-  i {
+  .left {
+    display: flex;
+    align-items: center;
+    button {
+      margin-left: 10px;
+    }
+  }
+  .right {
+    cursor: pointer;
     font-size: 1.5rem;
     position: relative;
     right: 7px;
@@ -109,6 +156,14 @@ h1 {
         }
       }
     }
+  }
+}
+
+.editor {
+  .btn-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 10px;
   }
 }
 </style>

@@ -4,7 +4,9 @@
       <el-header ref="topbar" v-show="!fullScreen">
         <head-bar></head-bar>
       </el-header>
-      <router-view></router-view>
+      <keep-alive include="center">
+        <router-view></router-view>
+      </keep-alive>
     </el-container>
   </div>
 </template>
@@ -16,6 +18,11 @@ export default {
   name: "app",
   components: {
     HeadBar
+  },
+  computed: {
+    fullScreen() {
+      return this.$store.getters.fullScreen;
+    }
   },
   methods: {
     ...mapActions(["setUserInfo", "changeLoginState"]),
@@ -57,7 +64,8 @@ export default {
           }
         })
         .catch(err => {
-          this.$message.error(`Ops! 看起来需要重新登录哦! ${err}`);
+          this.$message.error(`Ops! 看起来需要重新登录哦!`);
+          console.log(err);
           window.localStorage.removeItem("login_token");
           this.$router.push("/login");
         });
@@ -66,11 +74,6 @@ export default {
   mounted() {
     if (window.localStorage.getItem("login_token")) {
       this.updateToken();
-    }
-  },
-  computed: {
-    fullScreen() {
-      return this.$store.getters.fullScreen;
     }
   }
 };

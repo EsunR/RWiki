@@ -2,7 +2,7 @@
   <el-container>
     <aside-index></aside-index>
     <el-main>
-      <project-info :projectInfo="projectInfo"></project-info>
+      <project-info :projectInfo.sync="projectInfo"></project-info>
       <Article></Article>
     </el-main>
   </el-container>

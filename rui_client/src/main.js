@@ -7,10 +7,11 @@ import VueAxios from 'vue-axios';
 import './plugins/element.js'
 import './plugins/filters';
 import './global/global.scss';
-
+import _ from "lodash";
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, globalAxios)
+Vue.prototype._ = _
 
 
 

@@ -5,6 +5,10 @@
         <i class="el-icon-s-home"></i>
         <span>主页</span>
       </li>
+      <li class="item" @click="handleLogout">
+        <i class="el-icon-error"></i>
+        <span>登出</span>
+      </li>
     </ul>
     <div class="hide-btn" @click="handleHideBtn(true)">
       <i class="el-icon-s-fold"></i>
@@ -49,6 +53,21 @@ export default {
             }
         }
       }, 10);
+    },
+    handleLogout() {
+      this.axios
+        .get("/base/deleteToken")
+        .then(() => {
+          window.localStorage.clear();
+          this.$message.success("已登出账号");
+          this.$router.push("/login");
+        })
+        .catch(err => {
+          console.log(err);
+          window.localStorage.clear();
+          this.$message.error(`${err}`);
+          this.$router.push("/login");
+        });
     }
   }
 };
@@ -71,8 +90,13 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 10px 0;
+    cursor: pointer;
+    &:hover {
+      background-color: $color-main;
+    }
     i {
-      font-size: 2rem;
+      font-size: 1.5rem;
+      margin: 10px 0;
     }
     span {
       font-size: 14px;

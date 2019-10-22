@@ -1,6 +1,8 @@
 <template>
   <div id="top-bar">
-    <div class="title">RWiki</div>
+    <div class="title">
+      <router-link to="/center" tag="span">RWiki</router-link>
+    </div>
     <ul class="menu">
       <li>
         <router-link tag="i" to="/edit" class="el-icon-plus"></router-link>
@@ -28,6 +30,7 @@ export default {
   .title {
     font-size: 1.5rem;
     font-family: "Times New Roman", Times, serif;
+    cursor: pointer;
   }
   .menu {
     li i {
