@@ -43,6 +43,7 @@ module.exports = {
    */
   getProjectListByUid: async (ctx, next) => {
     const uid = ctx.state.user.uid
+    
     let projectDocs = await projectDb.findCreateProjectByUid(uid)
       .catch(err => {
         console.log(err);
@@ -73,4 +74,37 @@ module.exports = {
       data: projectDoc
     }
   },
+
+  /**
+   * 修改 Project 的信息
+   */
+  modifyProjectInfo: async (ctx, next) => {
+    let body = ctx.request.body
+    let pid = body._id
+    delete body._id
+    let update = body
+    // 检查传入的参数
+    let legalParameter = ["desc", "cover", "projectName"]
+    for (let key in update) {
+      if (legalParameter.indexOf(key) === -1) {
+        ctx.status = 403
+        ctx.body = { msg: `传入非法参数${key}，已拒绝修改请求` }
+        return
+      }
+    }
+    let result = await projectDb.Model
+      .findOneAndUpdate(
+        { _id: pid },
+        update,
+        { new: true, fields: { articles: 0 } })
+      .populate("creator partners", { password: 0, tokens: 0, identity: 0 })
+      .catch(err => {
+        ctx.body = { msg: "数据库查询失败" }
+        console.log(err);
+      })
+    ctx.body = {
+      msg: "ok",
+      data: result
+    }
+  }
 }
