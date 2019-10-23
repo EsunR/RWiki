@@ -1,23 +1,26 @@
 <template>
   <el-container>
-    <aside-index></aside-index>
+    <aside-index />
     <el-main>
-      <project-info :projectInfo.sync="projectInfo"></project-info>
-      <Article></Article>
+      <project-info :projectInfo.sync="projectInfo" />
+      <project-article v-for="item in article" :key="item.id" />
+      <article-editor :projectInfo="projectInfo" />
     </el-main>
   </el-container>
 </template>
 
 <script>
 import AsideIndex from "../components/project/aside-index";
-import Article from "../components/project/article";
+import ProjectArticle from "../components/project/article";
 import ProjectInfo from "../components/project/project-info";
+import ArticleEditor from "../components/project/article-editor";
 export default {
   name: "project",
   components: {
     AsideIndex,
-    Article,
-    ProjectInfo
+    ProjectArticle,
+    ProjectInfo,
+    ArticleEditor
   },
   data() {
     return {
@@ -51,7 +54,18 @@ export default {
 <style lang='scss' scoped>
 .el-main {
   width: 100%;
+  height: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  overflow-y: scroll;
+  /* 设置滚动条的样式 */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  /* 滚动条滑块 */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 </style>

@@ -55,19 +55,12 @@ export default {
       }, 10);
     },
     handleLogout() {
-      this.axios
-        .get("/base/deleteToken")
-        .then(() => {
-          window.localStorage.clear();
-          this.$message.success("已登出账号");
-          this.$router.push("/login");
-        })
-        .catch(err => {
-          console.log(err);
-          window.localStorage.clear();
-          this.$message.error(`${err}`);
-          this.$router.push("/login");
-        });
+      this.axios.get("/base/deleteToken").then(() => {
+        window.localStorage.clear();
+        this.$message.success("已登出账号");
+        this.$router.push("/login");
+        this.$store.dispatch("removeKeepActive", "center");
+      });
     }
   }
 };

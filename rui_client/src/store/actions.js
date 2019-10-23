@@ -20,4 +20,10 @@ export const setFullScreen = function ({ commit }, val) {
   commit(types.SET_FULL_SCREEN, val)
 }
 
+export const addKeepActive = function ({ commit }, val) {
+  commit(types.ADD_KEEP_ACTIVE, val)
+}
 
+export const removeKeepActive = function ({ commit }, val) {
+  commit(types.REMOVE_KEEP_ACTIVE, val)
+}

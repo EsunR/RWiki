@@ -8,13 +8,14 @@ import './plugins/element.js'
 import './plugins/filters';
 import './global/global.scss';
 import _ from "lodash";
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 Vue.config.productionTip = false
-Vue.use(VueAxios, globalAxios)
 Vue.prototype._ = _
 
-
-
+Vue.use(VueAxios, globalAxios)
+Vue.use(mavonEditor)
 
 new Vue({
   store,
