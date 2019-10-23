@@ -11,7 +11,7 @@ const articleSchema = new mongoose.Schema({
 const projectSchema = new mongoose.Schema({
   projectName: { type: String, required: true },
   creator: { type: ObjectId, ref: "user" },
-  partners: [{ type: ObjectId, ref: "user", default: [] }],
+  partners: [{ type: ObjectId, ref: "user" }],
   desc: { type: String, default: "" },
   cover: { type: String, default: "" },
   articles: [articleSchema]
@@ -32,9 +32,29 @@ async function findCreateProjectByUid(uid) {
   return projectLinkDoc
 }
 
+/**
+ * 检查用户是否拥有修改项目的权限
+ * @param {String} uid 
+ * @param {String} pid 
+ */
+async function checkUserPermission(uid, pid) {
+  let projectDoc = await Model.findById(pid).catch(err => {
+    console.log(err);
+    return false
+  })
+  let permissionList = projectDoc.partners.slice()
+  permissionList.push(projectDoc.creator)
+  if (permissionList.indexOf(uid) !== -1) {
+    return true;
+  } else {
+    return false
+  }
+}
+
 module.exports = {
   articleSchema,
   projectSchema,
   Model,
-  findCreateProjectByUid
+  findCreateProjectByUid,
+  checkUserPermission
 }

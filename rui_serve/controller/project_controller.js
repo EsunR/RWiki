@@ -43,7 +43,7 @@ module.exports = {
    */
   getProjectListByUid: async (ctx, next) => {
     const uid = ctx.state.user.uid
-    
+
     let projectDocs = await projectDb.findCreateProjectByUid(uid)
       .catch(err => {
         console.log(err);
@@ -106,5 +106,29 @@ module.exports = {
       msg: "ok",
       data: result
     }
+  },
+
+  /**
+   * 创建一个项目文章
+   */
+  addArticle: async (ctx, next) => {
+    let uid = ctx.state.user.uid
+    let { pid, title, md, html } = ctx.request.body
+    let permission = projectDb.checkUserPermission(uid, pid)
+    if (!permission) {
+      ctx.body = { msg: "当前用户没有修改权限" }
+      return
+    }
+    var project = new projectDb.Model
+    project.articles.push({ title, md, html })
+    await project.save().then(data => {
+      ctx.body = {
+        msg: "ok",
+        data
+      }
+    }).catch(err => {
+      console.log(err);
+      ctx.body = { msg: "创建失败" }
+    })
   }
 }

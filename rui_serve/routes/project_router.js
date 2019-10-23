@@ -12,5 +12,6 @@ router.post('/createProject', controller.createProject)
 router.get('/getProjectListByUid', controller.getProjectListByUid)
 router.get('/getProjectByPid', controller.getProjectByPid)
 router.post('/modifyProjectInfo', controller.modifyProjectInfo)
+router.post('/addArticle', controller.addArticle)
 
 module.exports = router.routes()
