@@ -104,10 +104,32 @@ module.exports = {
    */
   getUserInfo: async (ctx, next) => {
     let uid = ctx.state.user.uid
-    let userDoc = await userDb.Model.findById(uid)
+    let userDoc = await userDb.Model.findById(uid, { password: 0, tokens: 0 })
     ctx.body = {
       msg: "ok",
       data: userDoc
     }
+  },
+  /**
+   * 注销当前访问 Token
+   */
+  deleteToken: async (ctx, next) => {
+    let tid = ctx.state.user.tid
+    let uid = ctx.state.user.uid
+    let userDoc = await userDb.Model.findById(uid).catch(err => {
+      ctx.body = { msg: err }
+      return
+    })
+    let index = userDoc.tokens.indexOf(tid)
+    if (index === -1) {
+      ctx.body = { msg: "tid 无效" }
+      return
+    }
+    userDoc.tokens.splice(index, 1)
+    userDoc = await userDoc.save().catch(err => {
+      ctx.body = { msg: "tid 注销失败" }
+      return
+    })
+    ctx.body = { msg: "ok" }
   }
 }
