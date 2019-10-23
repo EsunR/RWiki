@@ -4,7 +4,7 @@
       <el-header ref="topbar" v-show="!fullScreen">
         <head-bar></head-bar>
       </el-header>
-      <keep-alive include="center">
+      <keep-alive :include="keepAlive">
         <router-view></router-view>
       </keep-alive>
     </el-container>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import HeadBar from "./components/header/head-bar";
 export default {
   name: "app",
@@ -20,21 +20,13 @@ export default {
     HeadBar
   },
   computed: {
+    ...mapGetters(["keepAlive"]),
     fullScreen() {
       return this.$store.getters.fullScreen;
     }
   },
   methods: {
     ...mapActions(["setUserInfo", "changeLoginState"]),
-    async _getSysStatus() {
-      let result = await this.axios.get("/sys/sysStatus");
-      let count = result.data.data.adminCount;
-      if (count > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     _getUserInfo() {
       this.axios
         .get("/base/getUserInfo")

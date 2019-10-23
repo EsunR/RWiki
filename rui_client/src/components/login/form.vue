@@ -32,11 +32,13 @@
         </el-form-item>
       </transition>
     </el-form>
+    <!-- 切换登录注册 -->
     <div :class="{'switch': true, 'switch-down': !loginMode}" @click="loginMode = !loginMode">
       <span v-show="loginMode">没有账号，点击注册</span>
       <span v-show="!loginMode">已有账号，点击登录</span>
     </div>
-    <div class="btn-box" @click="loginMode ? login() : register()">
+    <!-- 登录/注册按钮 -->
+    <div class="btn-box" @click="loginMode ? handleLoginClick() : handleRegisterClick()">
       <el-button type="primary" icon="el-icon-arrow-right" circle></el-button>
     </div>
     <!-- 尾部信息 -->
@@ -45,11 +47,11 @@
         <img src="../../assets/svg/R-logo.svg" />
       </div>
       <div class="info">
-        <p>EsunR Production</p>
-        <p>
+        <span>EsunR Production</span>
+        <span>
           Github:
           <a href="https://github.com/EsunR/RWiki">RWiki</a>
-        </p>
+        </span>
       </div>
     </div>
   </div>
@@ -100,18 +102,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["changeLoginState"]),
-    login() {
+    ...mapActions(["changeLoginState", "setUserInfo"]),
+    handleLoginClick() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.axios
             .post("/base/login", this.form)
             .then(res => {
               this.$message.success("登录成功");
-              this.changeLoginState(true);
-              window.localStorage.setItem("login_token", res.data.data.token);
-              this.$store.dispatch("setFullScreen", false);
-              this.$router.push("/");
+              this._loginSuccess(res.data.data.token);
             })
             .catch(err => {
               this.$message.error(`${err}`);
@@ -121,17 +120,14 @@ export default {
         }
       });
     },
-    register() {
+    handleRegisterClick() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.axios
             .post("/base/register", this.form)
             .then(res => {
               this.$message.success("注册成功，已登录");
-              this.changeLoginState(true);
-              window.localStorage.setItem("login_token", res.data.data.token);
-              this.$store.dispatch("setFullScreen", false);
-              this.$router.push("/home");
+              this._loginSuccess(res.data.data.token);
             })
             .catch(err => {
               this.$message.error(`${err}`);
@@ -140,6 +136,29 @@ export default {
           return false;
         }
       });
+    },
+    _getUserInfo() {
+      this.axios
+        .get("/base/getUserInfo")
+        .then(res => {
+          if (res.data.msg === "ok") {
+            this.setUserInfo(res.data.data);
+          } else {
+            throw new Error(res.data.msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error(err);
+        });
+    },
+    _loginSuccess(token) {
+      this.changeLoginState(true);
+      window.localStorage.setItem("login_token", token);
+      this._getUserInfo();
+      this.$store.dispatch("setFullScreen", false);
+      this.$store.dispatch("addKeepActive", "center");
+      this.$router.push("/center");
     }
   }
 };
@@ -252,11 +271,13 @@ $repass-transition: all 0.5s ease;
       }
     }
     .info {
-      padding: 10px 20px;
+      padding: 10px;
       background-color: rgba(0, 0, 0, 0.1);
-      p {
-        font-size: 12px;
+      span {
+        display: block;
+        font-size: 8px;
         margin: 0;
+        text-indent: 0;
         a {
           color: black;
         }
