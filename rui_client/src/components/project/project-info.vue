@@ -101,6 +101,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 0;
   .left {
     display: flex;
     align-items: center;

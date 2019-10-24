@@ -2,6 +2,7 @@
 $color-main: #409eff;
 $color-main-lite: #66b1ff;
 $color-main-deep: rgb(36, 134, 231);
+$color-font: #606266;
 $radius: 5px;
 $shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 // 全局样式
@@ -14,7 +15,7 @@ $shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 .card-light {
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
 }
 
 input:focus {
@@ -26,7 +27,6 @@ button:focus {
 }
 
 p {
-  text-indent: 2em;
   line-height: 1.8;
   text-align: justify;
 }

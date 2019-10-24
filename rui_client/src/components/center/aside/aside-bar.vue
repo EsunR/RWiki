@@ -72,6 +72,12 @@ export default {
   color: #ffffff;
   background-color: $color-main-lite;
   position: relative;
+  ul {
+    padding: 0;
+    li {
+      list-style: none;
+    }
+  }
 }
 
 .wrapper {
