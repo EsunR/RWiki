@@ -119,12 +119,13 @@ module.exports = {
       ctx.body = { msg: "当前用户没有修改权限" }
       return
     }
-    var project = new projectDb.Model
-    project.articles.push({ title, md, html })
-    await project.save().then(data => {
+    let projectDoc = await projectDb.Model.findById(pid)
+    projectDoc.articles.push({ title, md, html })
+    let articleDoc = projectDoc.articles.slice(-1)[0]
+    await projectDoc.save().then(() => {
       ctx.body = {
         msg: "ok",
-        data
+        data: articleDoc
       }
     }).catch(err => {
       console.log(err);
