@@ -2,7 +2,7 @@
   <div :id="`article_${articleInfo._id}`" class="article">
     <div class="article-title">
       <span>{{articleInfo.title}}</span>
-      <div class="button-wrapper">
+      <div v-if="permission" class="button-wrapper">
         <el-button icon="el-icon-edit" size="mini" circle @click="editorShow = !editorShow"></el-button>
         <el-button type="info" icon="el-icon-delete" size="mini" circle @click="handleDeleteClick"></el-button>
       </div>
@@ -22,7 +22,9 @@
 
 <script>
 import ArticleEditor from "./article-editor";
+import permission from "../../mixin/permission";
 export default {
+  mixins: [permission],
   data() {
     return {
       editorShow: false

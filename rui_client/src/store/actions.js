@@ -1,4 +1,5 @@
 import * as types from './mutation-types';
+import axios from '../plugins/axios';
 
 export const closeDevMode = function ({ commit }) {
   commit(types.SET_DEVMODE, false)
@@ -26,4 +27,13 @@ export const addKeepActive = function ({ commit }, val) {
 
 export const removeKeepActive = function ({ commit }, val) {
   commit(types.REMOVE_KEEP_ACTIVE, val)
+}
+
+export const setProjectPermission = function ({ commit }, pid) {
+  axios.get(`/project/checkPermission?pid=${pid}`).then((result) => {
+    commit(types.ALTER_PROJECT_PERMISSION, result.data.data)
+  }).catch((err) => {
+    console.error("Vuex actions setProjectPermission Error:", err)
+    commit(types.ALTER_PROJECT_PERMISSION, false)
+  });
 }

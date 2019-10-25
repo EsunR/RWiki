@@ -5,24 +5,22 @@
       :activeArticle="activeArticle"
       @indexClick="handleIndexClick"
     />
-    <el-main ref="el-main">
-      <div class="scroll-wrapper" ref="scroll-main" @scroll="handleOnScroll">
-        <div class="scroll-content">
-          <project-info :projectInfo.sync="projectInfo" />
-          <transition-group name="fade-down">
-            <project-article
-              v-for="item in articles"
-              :key="item._id"
-              :projectInfo="projectInfo"
-              :articleInfo="item"
-              @deleteArticleSuccess="deleteArticle"
-              @modifyArticleSuccess="modifyArticle"
-            ></project-article>
-          </transition-group>
-          <new-article :projectInfo="projectInfo" @addNewArticleSuccess="addNewArticle" />
-        </div>
+    <div class="scroll-wrapper" ref="scroll-main" @scroll="handleOnScroll">
+      <div class="scroll-content">
+        <project-info :projectInfo.sync="projectInfo" />
+        <transition-group name="fade-down">
+          <project-article
+            v-for="item in articles"
+            :key="item._id"
+            :projectInfo="projectInfo"
+            :articleInfo="item"
+            @deleteArticleSuccess="deleteArticle"
+            @modifyArticleSuccess="modifyArticle"
+          ></project-article>
+        </transition-group>
+        <new-article :projectInfo="projectInfo" @addNewArticleSuccess="addNewArticle" />
       </div>
-    </el-main>
+    </div>
   </el-container>
 </template>
 
@@ -31,6 +29,8 @@ import AsideIndex from "../components/project/aside-index";
 import ProjectArticle from "../components/project/article";
 import ProjectInfo from "../components/project/project-info";
 import NewArticle from "../components/project/new-article";
+import { ScreenScroller } from "../plugins/utils";
+const scroller = new ScreenScroller();
 export default {
   name: "project",
   components: {
@@ -41,7 +41,6 @@ export default {
   },
   data() {
     this.timmer = null;
-    this.AnimationTimmer = null;
     return {
       projectInfo: {},
       articles: [],
@@ -64,18 +63,22 @@ export default {
   },
   methods: {
     getProjectData() {
-      this.axios
-        .get(`/project/getProjectByPid?pid=${this.pid}`)
-        .then(res => {
-          let data = res.data.data;
-          this.articles = data.articles;
-          delete data.articles;
-          this.projectInfo = data;
-        })
-        .catch(err => {
-          console.log(err);
-          this.$message.error(`${err}`);
-        });
+      return new Promise((resolve, reject) => {
+        this.axios
+          .get(`/project/getProjectByPid?pid=${this.pid}`)
+          .then(res => {
+            let data = res.data.data;
+            this.articles = data.articles;
+            delete data.articles;
+            this.projectInfo = data;
+            resolve();
+          })
+          .catch(err => {
+            console.log(err);
+            this.$message.error(`${err}`);
+            reject();
+          });
+      });
     },
     handleOnScroll() {
       if (this.timmer != null) {
@@ -98,50 +101,11 @@ export default {
       }, 100);
     },
     handleIndexClick(articleId) {
-      if (this.AnimationTimmer) {
-        clearInterval(this.AnimationTimmer);
-      }
       let activeDom = document.querySelector(`#article_${articleId}`);
-      let scroll_dis = activeDom.offsetTop - 60;
       let scrollDom = this.$refs["scroll-main"];
+      let scroll_target = activeDom.offsetTop - 60;
       let scroll_current = scrollDom.scrollTop;
-
-      let s = Math.abs(scroll_current - scroll_dis);
-      let sign = Math.sign(scroll_dis - scroll_current);
-
-      // 没毫秒移动多少距离
-      let speed = s / 100;
-      let scroll_last = scrollDom.scrollTop - 1;
-
-      this.AnimationTimmer = setInterval(() => {
-        let scroll_current = scrollDom.scrollTop;
-        // 防止滚动目标达不到屏幕顶端而卡住
-        if (scroll_last === scroll_current) {
-          clearInterval(this.AnimationTimmer);
-          return;
-        } else {
-          scroll_last = scroll_current;
-        }
-        scrollDom.scrollTop += speed * sign;
-        switch (sign) {
-          case -1:
-            if (scroll_current - speed < scroll_dis) {
-              // 如果下一帧滚超了，现在就停止定时器并手动规正位置
-              clearInterval(this.AnimationTimmer);
-              scrollDom.scrollTop = scroll_dis;
-            }
-            break;
-          case 1:
-            if (scroll_current + speed > scroll_dis) {
-              clearInterval(this.AnimationTimmer);
-              scrollDom.scrollTop = scroll_dis;
-            }
-            break;
-          case 0:
-            clearInterval(this.AnimationTimmer);
-            break;
-        }
-      }, 1);
+      scroller.scroll(scrollDom, 500, scroll_current, scroll_target);
     },
     addNewArticle(articleInfo) {
       this.articles.push(articleInfo);
@@ -166,7 +130,9 @@ export default {
     }
   },
   mounted() {
-    this.getProjectData();
+    this.getProjectData().then(() => {
+      this.$store.dispatch("setProjectPermission", this.projectInfo._id);
+    });
   }
 };
 </script>

@@ -24,6 +24,9 @@ const mutations = {
       throw new Error(`${val} 不在 keepAlive 数组中，请检查拼写`)
     }
     state.keepAlive.splice(index, 1)
+  },
+  [types.ALTER_PROJECT_PERMISSION](state, val) {
+    state.projectPermission = val
   }
 }
 

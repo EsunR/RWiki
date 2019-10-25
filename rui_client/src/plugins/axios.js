@@ -2,7 +2,6 @@ import axios from 'axios';
 import baseConfig from '../config/base_config'
 
 axios.defaults.baseURL = baseConfig.apiUrl
-// axios.defaults.headers.common['Authorization'] = localStorage.getItem('login_token')
 
 // 请求拦截器
 axios.interceptors.request.use(function (config) {

@@ -1,5 +1,5 @@
 <template>
-  <div id="new-article">
+  <div id="new-article" v-if="permission">
     <div v-show="!editorShow" class="add" @click="editorShow = true">
       <i class="el-icon-document-add"></i> 新增
     </div>
@@ -14,7 +14,9 @@
 
 <script>
 import ArticleEditor from "./article-editor";
+import permission from "../../mixin/permission";
 export default {
+  mixins: [permission],
   name: "new-article",
   data() {
     return {

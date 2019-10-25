@@ -3,7 +3,8 @@ const state = {
   loginState: false,
   userInfo: {},
   fullScreen: false,
-  keepAlive: ["center"]
+  keepAlive: ["center"],
+  projectPermission: false
 }
 
 export default state
