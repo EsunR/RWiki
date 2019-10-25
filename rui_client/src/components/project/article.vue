@@ -10,10 +10,11 @@
     <div class="article-content" v-html="articleInfo.html" v-show="!editorShow"></div>
     <div class="editor-wrapper">
       <article-editor
-        :boxShadow="false"
         v-if="editorShow"
+        :boxShadow="false"
         :articleInfo="articleInfo"
         :projectInfo="projectInfo"
+        @modify="handleArticleModify"
       />
     </div>
   </div>
@@ -39,11 +40,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-          this.handleDelete(this.articleInfo._id)
+          this.handleDelete(this.articleInfo._id);
         })
         .catch(() => {
           this.$message({
@@ -52,8 +49,35 @@ export default {
           });
         });
     },
-    handleDelete(aid){ 
-      console.log(aid);
+    handleDelete(aid) {
+      this.axios
+        .delete("/project/article", {
+          params: {
+            aid: aid,
+            pid: this.projectInfo._id
+          }
+        })
+        .then(() => {
+          this.$message.success("删除成功");
+          this.$emit("deleteArticleSuccess", aid);
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error(`${err}`);
+        });
+    },
+    handleArticleModify(payload) {
+      this.axios
+        .post("/project/modifyArticle", payload)
+        .then(res => {
+          this.$emit("modifyArticleSuccess", res.data.data);
+          this.$message.success("修改成功");
+          this.editorShow = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error(`${err}`);
+        });
     }
   }
 };

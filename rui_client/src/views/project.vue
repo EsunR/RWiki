@@ -6,15 +6,21 @@
       @indexClick="handleIndexClick"
     />
     <el-main ref="el-main">
-      <div class="wrapper" ref="scroll-main" @scroll="handleOnScroll">
-        <project-info :projectInfo.sync="projectInfo" />
-        <project-article
-          v-for="item in articles"
-          :key="item.id"
-          :projectInfo="projectInfo"
-          :articleInfo="item"
-        />
-        <new-article :projectInfo="projectInfo" @addNewArticleSuccess="addNewArticle" />
+      <div class="scroll-wrapper" ref="scroll-main" @scroll="handleOnScroll">
+        <div class="scroll-content">
+          <project-info :projectInfo.sync="projectInfo" />
+          <transition-group name="fade-down">
+            <project-article
+              v-for="item in articles"
+              :key="item._id"
+              :projectInfo="projectInfo"
+              :articleInfo="item"
+              @deleteArticleSuccess="deleteArticle"
+              @modifyArticleSuccess="modifyArticle"
+            ></project-article>
+          </transition-group>
+          <new-article :projectInfo="projectInfo" @addNewArticleSuccess="addNewArticle" />
+        </div>
       </div>
     </el-main>
   </el-container>
@@ -139,6 +145,24 @@ export default {
     },
     addNewArticle(articleInfo) {
       this.articles.push(articleInfo);
+    },
+    deleteArticle(aid) {
+      console.log(aid);
+      this.articles.some((element, index) => {
+        if (element._id === aid) {
+          this.articles.splice(index, 1);
+          return true;
+        }
+      });
+    },
+    modifyArticle(payload) {
+      let pid = payload._id;
+      this.articles.some((element, index) => {
+        if (element._id === pid) {
+          this.articles.splice(index, 1, payload);
+          return true;
+        }
+      });
     }
   },
   mounted() {
@@ -153,9 +177,8 @@ export default {
   height: 100%;
   padding: 0;
 }
-.wrapper {
+.scroll-wrapper {
   width: 100%;
-  max-width: 1000px;
   margin: 0 auto;
   height: 100%;
   overflow-y: overlay;
@@ -173,6 +196,11 @@ export default {
   }
   @media screen and (max-width: 700px) {
     padding: 10px;
+  }
+  .scroll-content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 }
 </style>

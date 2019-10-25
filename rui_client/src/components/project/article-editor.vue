@@ -44,6 +44,7 @@ export default {
       if (this.articleInfo._id) {
         this.md = this.articleInfo.md;
         this.html = this.articleInfo.html;
+        this.title = this.articleInfo.title;
         this.editMode = "modify";
       }
     },

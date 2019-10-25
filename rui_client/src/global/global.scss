@@ -57,3 +57,16 @@ textarea {
   transform: translateY(0px);
   opacity: 1;
 }
+
+// 改造 element ui 的对话框为自适应布局
+.el-message-box__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .el-message-box {
+    width: 100%;
+    height: 130px;
+    margin: 10px;
+    max-width: 420px;
+  }
+}
