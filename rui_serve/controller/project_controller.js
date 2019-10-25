@@ -38,6 +38,7 @@ module.exports = {
       data: projectLinkedDoc
     }
   },
+
   /**
    * 查找某用户创建的项目
    */
@@ -76,11 +77,36 @@ module.exports = {
   },
 
   /**
+   * 检查用户对该项目的权限
+   */
+  checkPermission: async (ctx, next) => {
+    let uid = ctx.state.user.uid
+    let pid = ctx.query.pid
+    // 检查权限
+    let projectDoc = await projectDb.checkUserPermission(uid, pid)
+    if (!projectDoc) {
+      ctx.body = { msg: "ok", data: false }
+      return
+    } else {
+      ctx.body = { msg: "ok", data: true }
+    }
+  },
+
+  /**
    * 修改 Project 的信息
    */
   modifyProjectInfo: async (ctx, next) => {
     let body = ctx.request.body
     let pid = body._id
+    let uid = ctx.state.user.uid
+
+    // 检查权限
+    let projectDoc = await projectDb.checkUserPermission(uid, pid)
+    if (!projectDoc) {
+      ctx.body = { msg: "没有修改权限" }
+      return
+    }
+
     delete body._id
     let update = body
     // 检查传入的参数
@@ -131,5 +157,76 @@ module.exports = {
       console.log(err);
       ctx.body = { msg: "创建失败" }
     })
+  },
+
+  /**
+   * 删除一篇项目中的文章
+   */
+  deleteArticleByAid: async (ctx, next) => {
+    let uid = ctx.state.user.uid
+    let { pid, aid } = ctx.query
+    if (!(pid && aid)) {
+      ctx.body = { msg: "参数缺失" }
+      return
+    }
+    let permission = await projectDb.checkUserPermission(uid, pid)
+    if (!permission) {
+      ctx.body = { msg: "没有修改权限" }
+      return
+    }
+    let projectDoc = await projectDb.Model.findById(pid)
+    try {
+      projectDoc.articles.id(aid).remove()
+    } catch (error) {
+      console.log(error);
+      ctx.body = { msg: "没有查到对应的文章" }
+      return
+    }
+    projectDoc = await projectDoc.save().catch(err => {
+      console.log(err);
+      return false
+    })
+    if (projectDoc) {
+      ctx.body = { msg: "ok" }
+    } else {
+      ctx.body = { msg: "删除失败" }
+    }
+  },
+
+  /**
+   * 修改一篇项目中的文章
+   */
+  modifyArticle: async (ctx, next) => {
+    let uid = ctx.state.user.uid
+    let { pid, aid, title, md, html } = ctx.request.body
+
+    // 检查权限
+    let projectDoc = await projectDb.checkUserPermission(uid, pid)
+    if (!projectDoc) {
+      ctx.body = { msg: "没有修改权限" }
+      return
+    }
+
+    // 修改数据
+    try {
+      articleDoc = projectDoc.articles.id(aid)
+    } catch{
+      ctx.body = { msg: "修改失败，没有找到相关的文章信息" }
+      return
+    }
+    articleDoc.title = title
+    articleDoc.md = md
+    articleDoc.html = html
+
+    // 保存文档
+    projectDoc = await projectDoc.save().catch(err => {
+      console.log(err);
+      return false
+    })
+    if (!projectDoc) {
+      ctx.body = { msg: "保存失败" }
+      return
+    }
+    ctx.body = { msg: "ok", data: articleDoc }
   }
 }

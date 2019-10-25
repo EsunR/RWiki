@@ -39,13 +39,16 @@ async function findCreateProjectByUid(uid) {
  */
 async function checkUserPermission(uid, pid) {
   let projectDoc = await Model.findById(pid).catch(err => {
-    console.log(err);
+    console.error("无法查找到对应pid:", err)
     return false
   })
+  if (!projectDoc) {
+    return false
+  }
   let permissionList = projectDoc.partners.slice()
   permissionList.push(projectDoc.creator)
   if (permissionList.indexOf(uid) !== -1) {
-    return true;
+    return projectDoc;
   } else {
     return false
   }

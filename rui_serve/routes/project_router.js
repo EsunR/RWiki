@@ -13,5 +13,8 @@ router.get('/getProjectListByUid', controller.getProjectListByUid)
 router.get('/getProjectByPid', controller.getProjectByPid)
 router.post('/modifyProjectInfo', controller.modifyProjectInfo)
 router.post('/addArticle', controller.addArticle)
+router.delete('/article', controller.deleteArticleByAid)
+router.post('/modifyArticle', controller.modifyArticle)
+router.get('/checkPermission', controller.checkPermission)
 
 module.exports = router.routes()
