@@ -4,6 +4,7 @@
       :indexList="indexList"
       :activeArticle="activeArticle"
       @indexClick="handleIndexClick"
+      @addArticle="handleAddArticleBtnClick"
     />
     <div class="scroll-wrapper" ref="scroll-main" @scroll="handleOnScroll">
       <div class="scroll-content">
@@ -18,7 +19,11 @@
             @modifyArticleSuccess="modifyArticle"
           ></project-article>
         </transition-group>
-        <new-article :projectInfo="projectInfo" @addNewArticleSuccess="addNewArticle" />
+        <new-article
+          ref="new-article"
+          :projectInfo="projectInfo"
+          @addNewArticleSuccess="addNewArticle"
+        />
       </div>
     </div>
   </el-container>
@@ -106,6 +111,14 @@ export default {
       let scroll_target = activeDom.offsetTop - 60;
       let scroll_current = scrollDom.scrollTop;
       scroller.scroll(scrollDom, 500, scroll_current, scroll_target);
+    },
+    handleAddArticleBtnClick() {
+      let scrollDom = this.$refs["scroll-main"];
+      let editorDom = this.$refs["new-article"].$el;
+      let scroll_target = editorDom.offsetTop - 60;
+      let scroll_current = scrollDom.scrollTop;
+      scroller.scroll(scrollDom, 500, scroll_current, scroll_target);
+      this.$refs["new-article"].editorShow = true;
     },
     addNewArticle(articleInfo) {
       this.articles.push(articleInfo);
