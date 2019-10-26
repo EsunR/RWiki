@@ -13,7 +13,7 @@
 - projectName
 - desc
 - cover
-- creator **ObjectId** `ref: users`
+- creator **ObjectId `ref: users`**
 
 - partners **Array [ObjectId `ref: users`]**
 
