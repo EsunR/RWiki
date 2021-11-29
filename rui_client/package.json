@@ -13,7 +13,7 @@
     "element-ui": "^2.4.5",
     "highlight.js": "^9.15.10",
     "lodash": "^4.17.15",
-    "mavon-editor": "^2.7.6",
+    "mavon-editor": "^2.8.2",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
